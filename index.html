@@ -1,0 +1,59 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>Library App</title>
+  <meta name="Library" content="Library App">
+  <meta name="Georgy" content="Library">
+
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+  <div class="bg-focus"></div>
+  <header>The Library</header>
+    <div class="link-ctn">
+      <p class="link">Created by<a href="https://github.com/Gkuzin13" >
+        <img class="link-img" src="img/github.png" alt="Link to my GitHub"></a></p>
+    </div>  
+  
+
+  <div id="cards-ctn">
+    <div class="new-book-btn">
+      <div class="plus-btn">Add new book<br><img src="img/plus.png" alt="Add new book"></div>
+    </div>
+  </div>
+
+  <div class="add-ctn">
+    <form id="form-ctn">
+      <h1>Add new book</h1>
+  
+      <label for="book-name"><br>Title:</label>
+      <input id="book-name" type="text" placeholder="Name of the book" name="Title" value="" required>
+
+      <label for="author-name"><br>Author:</label>
+      <input id="author-name" type="text" placeholder="Author Name" name="Author" value="" required>
+
+      <label for="page-num"><br>Pages:</label>
+      <input id="page-num" type="number" placeholder="Number of pages" name="Book Name" value="" min="
+      1" max="15000" required>
+
+      <label for="book-status"><br>Read:</label>
+      <input id="book-status" type="checkbox" value=""><br>
+
+      <div class="btn-ctn">
+        <button class="add-btn" type="submit" form="form-ctn" value="submit">Add</button>
+        <button class="cancel-btn" type="button">X</button>
+      </div>
+    </form>
+  </div>  
+  
+  <script src="main.js"></script>
+</body>
+</html>
