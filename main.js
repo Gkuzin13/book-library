@@ -11,7 +11,19 @@ let formFocus = document.querySelector('.bg-focus');
 
 const cardsCtn = document.getElementById('cards-ctn');
 
-let bookLibrary = [];
+let bookLibrary = [
+    {id: 1606253782720,
+    title: "The Lord of the Rings",
+    author: "J.R.R. Tokien",
+    pages: "1216",
+    read: true},
+
+    {id: 1606253732520,
+    title: "The Hobbit",
+    author: "J.R.R. Tolkien",
+    pages: "310",
+    read: false}
+];
 
 function Book(id, title, author, pages, read) {
     this.id = id;
@@ -21,67 +33,87 @@ function Book(id, title, author, pages, read) {
     this.read = read;
 };
 
+renderBook = () => {
+    bookLibrary.forEach(Book => {
+      let bookCard = document.createElement('div');
+        bookCard.classList.add('book-card');
+        cardsCtn.prepend(bookCard);
+
+      let bookDelete = document.createElement('span');
+        bookDelete.classList.add('book-del-btn');
+        bookDelete.textContent = 'X';
+        bookDelete.setAttribute('unique-id', Book.id);
+        bookCard.appendChild(bookDelete);
+
+      let titleInfo = document.createElement('h1');
+        titleInfo.classList.add('title-info');
+        titleInfo.textContent = Book.title;
+        bookCard.appendChild(titleInfo);
+
+      let authorInfo = document.createElement('p')
+        authorInfo.classList.add('author-info');
+        authorInfo.textContent = ' by ' + Book.author;
+        titleInfo.appendChild(authorInfo);
+
+      let pagesInfo = document.createElement('p');
+        pagesInfo.classList.add('pages-info');
+        titleInfo.appendChild(pagesInfo);
+        pagesInfo.textContent = Book.pages + ' pages';
+        
+      let readStatus = document.createElement('p');
+        readStatus.classList.add('read-status');
+        bookCard.appendChild(readStatus);
+        readStatus.setAttribute('unique-id', Book.id);
+
+        bookCompleted = () => {
+            readStatus.style.color = 'green';
+            readStatus.textContent = 'Completed';
+        };
+        
+        bookNotRead = () => {
+            readStatus.style.color = 'rgb(230, 103, 80)';
+            readStatus.textContent = 'Not read yet';
+        };
+
+        if(Book.read == true) {
+            bookCompleted();
+        } else {
+            bookNotRead();
+        };
+    });  
+};
+
+renderBook();
+
 addBook = () => {
-    let id = Date.now();
-    let getTitle = document.getElementById('book-name').value;
-    let getAuthor = document.getElementById('author-name').value;
-    let getPages = document.getElementById('page-num').value;
-    let getStatus = document.getElementById('book-status').checked;
+    this.id = Date.now();
+    this.title = document.getElementById('book-name').value;
+    this.author = document.getElementById('author-name').value;
+    this.pages = document.getElementById('page-num').value;
+    this.read = document.getElementById('book-status').checked;
 
-    let addNewBook = new Book(id, getTitle, getAuthor, getPages, getStatus);
+    // Adds new book object to array
+    let addNewBook = new Book(id, title, author, pages, read);
     bookLibrary.push(addNewBook);
+
+    // Removes all rendered book cards 
+    cardsCtn.querySelectorAll('.book-card').forEach(e => e.remove());
+
+    // Re-renders book list
+    renderBook();
+
     console.log(bookLibrary)
-
-    // Create and style new book card
-    let bookCard = document.createElement('div');
-    bookCard.classList.add('book-card');
-    cardsCtn.prepend(bookCard);
-
-    let bookDelete = document.createElement('span');
-    bookDelete.classList.add('book-del-btn');
-    bookDelete.textContent = 'X';
-    bookDelete.setAttribute('unique-id', id);
-    bookCard.appendChild(bookDelete);
-
-    let mainInfo = document.createElement('h1');
-    mainInfo.classList.add('book-main-info');
-    bookCard.appendChild(mainInfo);
-    mainInfo.textContent = `${getTitle} by ${getAuthor}`;
-
-    let pagesInfo = document.createElement('p');
-    pagesInfo.classList.add('pages-info');
-    mainInfo.appendChild(pagesInfo);
-    pagesInfo.textContent = `${getPages} pages`;
-    
-    let readStatus = document.createElement('p');
-    readStatus.classList.add('read-status');
-    bookCard.appendChild(readStatus);
-
-    bookCompleted = () => {
-        readStatus.style.color = 'green';
-        readStatus.textContent = 'Completed';
-    };
-
-    bookNotRead = () => {
-        readStatus.style.color = 'tomato';
-        readStatus.textContent = 'Not read yet';
-    };
-
-    if(getStatus == true) {
-        bookCompleted();
-    } else {
-        bookNotRead();
-    };
-
-    formCtn.style.display = 'none';
-    formCtn.reset();
-    newBookBtn.style.opacity = '1';
-    formFocus.style.display = 'none';
 };
 
 formCtn.addEventListener('submit', e => {
     e.preventDefault();
+
     addBook();
+
+    formCtn.style.display = 'none';
+    newBookBtn.style.opacity = '1';
+    formFocus.style.display = 'none';
+    formCtn.reset();
 });
 
 // Removes book element and object
@@ -99,11 +131,9 @@ cardsCtn.addEventListener('click', e => {
         
         let del = e.target.parentElement;
         cardsCtn.removeChild(del);
-
-        console.log(bookLibrary);
+        console.log(bookLibrary, 'Book removed');
     };
 });
-
 
 addBookToLibrary = () => {
     formCtn.style.display = 'block';
