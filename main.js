@@ -118,20 +118,43 @@ formCtn.addEventListener('submit', e => {
 
 // Removes book element and object
 cardsCtn.addEventListener('click', e => {
-    // Get id number
+    // Get id number from current card 
     let getId = e.target.getAttribute('unique-id');
-
+    
     if(e.target.classList.contains('book-del-btn')) {
-        // Searches for id match and removes object
+        // Loops through array 
         for(let i = 0; i < bookLibrary.length; i++) {
+            // Removes from array if id matched to id in object
             if(bookLibrary[i].id == getId) {
                 bookLibrary.splice(i, 1);
             };
         };
-        
+        // Removes targeted card from DOM
         let del = e.target.parentElement;
         cardsCtn.removeChild(del);
-        console.log(bookLibrary, 'Book removed');
+    };
+
+    if(e.target.classList.contains('read-status')) {
+        // Loops through array 
+        for(let i = 0; i < bookLibrary.length; i++) {
+            if(bookLibrary[i].id == getId) {
+                // Stores 
+                let map = new Map(Object.entries(bookLibrary[i]));
+                let status = map.get('read');
+
+                if(status == true) {
+                    bookLibrary[i].read = false;
+                    console.log(bookLibrary);
+                    e.target.style.color = 'tomato';
+                    e.target.textContent = 'Not read yet';
+                } else {
+                    bookLibrary[i].read = true;
+                    console.log(bookLibrary);
+                    e.target.style.color = 'green';
+                    e.target.textContent = 'Completed';
+                };
+            };
+        };
     };
 });
 
