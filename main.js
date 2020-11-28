@@ -5,11 +5,11 @@ const addBtn = document.querySelector('.add-btn');
 
 const cancelBtn = document.querySelector('.cancel-btn');
 
+const cardsCtn = document.getElementById('cards-ctn');
+
 let formCtn = document.getElementById('form-ctn');
 
 let formFocus = document.querySelector('.bg-focus');
-
-const cardsCtn = document.getElementById('cards-ctn');
 
 let bookLibrary = [
     {id: 1606253782720,
@@ -33,7 +33,9 @@ function Book(id, title, author, pages, read) {
     this.read = read;
 };
 
+// Renders book card
 renderBook = () => {
+    // Styling for each book card
     bookLibrary.forEach(Book => {
       let bookCard = document.createElement('div');
         bookCard.classList.add('book-card');
@@ -42,6 +44,7 @@ renderBook = () => {
       let bookDelete = document.createElement('span');
         bookDelete.classList.add('book-del-btn');
         bookDelete.textContent = 'X';
+        // Sets a unique ID generated from Date.now()
         bookDelete.setAttribute('unique-id', Book.id);
         bookCard.appendChild(bookDelete);
 
@@ -82,10 +85,13 @@ renderBook = () => {
         };
     });  
 };
-
+// Update book local storage
+bookLibrary = JSON.parse(localStorage.getItem("bookLibrary") || "[]");
+// Renders book cards
 renderBook();
 
 addBook = () => {
+    // Gets user input from form
     this.id = Date.now();
     this.title = document.getElementById('book-name').value;
     this.author = document.getElementById('author-name').value;
@@ -98,21 +104,22 @@ addBook = () => {
 
     // Removes all rendered book cards 
     cardsCtn.querySelectorAll('.book-card').forEach(e => e.remove());
+    // Update book local storage
+    localStorage.setItem("bookLibrary", JSON.stringify(bookLibrary));
 
     // Re-renders book list
     renderBook();
-
-    console.log(bookLibrary)
 };
 
 formCtn.addEventListener('submit', e => {
     e.preventDefault();
 
     addBook();
-
+    // After submit styling
     formCtn.style.display = 'none';
     newBookBtn.style.opacity = '1';
     formFocus.style.display = 'none';
+    // Resets form inputs
     formCtn.reset();
 });
 
@@ -132,49 +139,51 @@ cardsCtn.addEventListener('click', e => {
         // Removes targeted card from DOM
         let del = e.target.parentElement;
         cardsCtn.removeChild(del);
+        // Update book local storage
+        localStorage.setItem("bookLibrary", JSON.stringify(bookLibrary));
     };
-
+    // Change read status
     if(e.target.classList.contains('read-status')) {
         // Loops through array 
         for(let i = 0; i < bookLibrary.length; i++) {
+            // Looks for matched id book
             if(bookLibrary[i].id == getId) {
-                // Stores 
-                let map = new Map(Object.entries(bookLibrary[i]));
-                let status = map.get('read');
-
-                if(status == true) {
+                // Toggles read status on matched book id object
+                if(bookLibrary[i].read == true) {
                     bookLibrary[i].read = false;
-                    console.log(bookLibrary);
                     e.target.style.color = 'tomato';
                     e.target.textContent = 'Not read yet';
+                    console.log(bookLibrary)
                 } else {
                     bookLibrary[i].read = true;
-                    console.log(bookLibrary);
                     e.target.style.color = 'green';
                     e.target.textContent = 'Completed';
+                    console.log(bookLibrary)
                 };
+                // Update book local storage
+                localStorage.setItem("bookLibrary", JSON.stringify(bookLibrary));
             };
         };
     };
 });
 
+// Form styling 
 addBookToLibrary = () => {
     formCtn.style.display = 'block';
-
     formFocus.style.display = 'block';
 
+    // Cancel button styling
     cancelBtn.addEventListener('click', e => {
         e.preventDefault();
 
         formCtn.style.display = 'none';
-
         formFocus.style.display = 'none';
-
         newBookBtn.style.opacity = '1';
     });
 };
 
 newBookBtn.addEventListener('click', addBookToLibrary);
+
 
 
 
