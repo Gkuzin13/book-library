@@ -136,6 +136,7 @@ header {
 
 .read-status:hover {
     cursor: pointer;
+    text-decoration: underline;
 }
 
 .new-book-btn {
@@ -184,24 +185,25 @@ input {
 }
 
 #form-ctn {
-    font-size: 1.1rem;
+    font-size: 1.4rem;
     display: none;
     position: absolute;
     left: 50%;
     top: 50%;
     transform: translate(-50%, -50%);
     border: 5px rgb(146, 146, 146) solid;
-    width: 25em;
-    height: 23em;
+    width: 18em;
+    height: 20em;
     background-color: white;
-    padding: 1em 5em;
+    padding: 1em 3em;
     z-index: 2;
 }
 
 .form-h1 {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     text-align: center;
     text-decoration: underline;
+    
 }
 
 .placeholder-ctn {
@@ -209,7 +211,6 @@ input {
     justify-content: center;
     flex-direction: column;
     padding-top: 1em;
-    font-size: 1.2rem;
 }
 
 .btn-ctn {
