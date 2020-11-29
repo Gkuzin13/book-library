@@ -11,8 +11,8 @@ let formCtn = document.getElementById('form-ctn');
 
 let formFocus = document.querySelector('.bg-focus');
 
-let bookLibrary = [
-    {id: 1606253782720,
+let bookLibrary = [{
+    id: 1606253782720,
     title: "The Lord of the Rings",
     author: "J.R.R. Tokien",
     pages: "1216",
@@ -24,6 +24,9 @@ let bookLibrary = [
     pages: "310",
     read: false}
 ];
+
+// Get books from local storage
+bookLibrary = JSON.parse(localStorage.getItem("bookLibrary") || "[]");
 
 function Book(id, title, author, pages, read) {
     this.id = id;
@@ -85,8 +88,7 @@ renderBook = () => {
         };
     });  
 };
-// Update book local storage
-bookLibrary = JSON.parse(localStorage.getItem("bookLibrary") || "[]");
+
 // Renders book cards
 renderBook();
 
